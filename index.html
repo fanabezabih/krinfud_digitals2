@@ -360,7 +360,7 @@
             overflow: hidden;
         }
 
-        /* Who We Are - UPDATED TO CENTER CONTENT VERTICALLY */
+        /* Who We Are */
         .who-section { background: var(--white); }
         .who-container { 
             padding: 8rem 5%; 
@@ -399,9 +399,7 @@
         .service-arrow { color: var(--yellow); font-size: 1.2rem; opacity: 0; transition: opacity 0.3s ease; }
         .service-item:hover .service-arrow { opacity: 1; }
 
-        /* ==========================================
-           NEW WHY KRINFUD STYLE (Dark & Premium)
-           ========================================== */
+        /* Why Krinfud */
         .why-section { 
             background: var(--brown-dark); 
             color: var(--white);
@@ -472,7 +470,7 @@
         }
 
         /* Showcase */
-        .showcase-section { padding: 6rem 0; overflow: hidden; }
+        .showcase-section { padding: 6rem 0 8rem; overflow: hidden; }
         .showcase-section.white-bg { background: var(--white); }
         .showcase-section.brown-bg { background: var(--brown-dark); }
         .showcase-section.brown-bg .section-title { color: var(--white); }
@@ -491,9 +489,7 @@
         .showcase-card:hover .showcase-card-link { opacity: 1; transform: scale(1); }
         .showcase-card-link:hover { background: var(--white); transform: scale(1.1) !important; }
 
-        /* ==========================================
-           PARTNERS STYLE (Circular Logos - FULL COLOR)
-           ========================================== */
+        /* Partners */
         .partners-section { background: var(--white); padding: 8rem 5%; }
         .partners-grid {
             display: flex;
@@ -567,10 +563,7 @@
             
             .horizontal-track { flex-direction: column; width: 100%; }
             .panel { width: 100vw; min-height: auto; }
-            .who-container { 
-                padding: 6rem 5%;
-                min-height: auto;
-            }
+            .who-container { padding: 6rem 5%; min-height: auto; }
             .services-container { padding: 6rem 5%; }
             
             .why-grid { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -617,7 +610,6 @@
             <div class="hero-card-content">
                 <p class="hero-card-label">Digital Marketing Agency in Ethiopia</p>
                 <h1 class="hero-card-title">
-                    <!-- <span class="brand-name">KRINFUD</span> -->
                     <span class="tagline">Be where the world is going.</span>
                 </h1>
                 <p class="hero-card-subtitle">A full-service marketing agency built by creative thinkers, strategists and doers.</p>
@@ -632,7 +624,7 @@
         </div>
     </div>
 
-    <!-- HORIZONTAL SCROLL WRAPPER (Who We Are & Services) -->
+    <!-- HORIZONTAL SCROLL WRAPPER -->
     <div class="horizontal-scroll-wrapper">
         <div class="horizontal-track">
             <section class="who-section panel" id="about">
@@ -702,7 +694,7 @@
         </div>
     </div>
 
-    <!-- Why Krinfud (NEW PREMIUM DARK STYLE) -->
+    <!-- Why Krinfud -->
     <section class="why-section" id="why">
         <div class="section-header">
             <span class="section-label">Why Krinfud?</span>
@@ -721,14 +713,14 @@
                 <p>One point of contact to cater to your marketing needs — whether assessment, ideation, strategizing, execution, monitoring or evaluation.</p>
             </div>
             <div class="why-card">
-                <div class="why-icon"></div>
+                <div class="why-icon">◉</div>
                 <h3>360° Marketing</h3>
                 <p>Every Channel, One Team Behind It. Brand management and digital strategy — one point of contact for everything your brand needs to grow.</p>
             </div>
         </div>
     </section>
 
-    <!-- Events -->
+    <!-- Events (LINKED TO VERCEL) -->
     <section class="showcase-section white-bg" id="events">
         <div class="showcase-header">
             <span class="section-label">KRINFUD Events</span>
@@ -739,12 +731,16 @@
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Tech Summit 2024</h4><p>Addis Ababa • 500+ Attendees</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Brand Launch Gala</h4><p>Hilton Hotel • Premium Event</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Corporate Retreat</h4><p>Team Building • Strategy</p></div></div>
-            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link"></a><div class="showcase-card-overlay"><h4>Creative Workshop</h4><p>Design Thinking • Innovation</p></div></div>
+            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Creative Workshop</h4><p>Design Thinking • Innovation</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Cultural Festival</h4><p>Community • Celebration</p></div></div>
+        </div>
+        <!-- NEW LINK BUTTON -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="https://krinfud.vercel.app/" target="_blank" class="btn btn-yellow">Explore All Events ↗</a>
         </div>
     </section>
 
-    <!-- Creatives -->
+    <!-- Creatives (LINKED TO LOCAL FILE) -->
     <section class="showcase-section brown-bg" id="creatives">
         <div class="showcase-header">
             <span class="section-label">KRINFUD Creatives</span>
@@ -754,13 +750,17 @@
         <div class="showcase-track reverse" id="creativesTrack">
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Brand Campaign</h4><p>Visual Identity • Storytelling</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Video Production</h4><p>Cinematic • High Quality</p></div></div>
-            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b8?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link"></a><div class="showcase-card-overlay"><h4>Photography</h4><p>Editorial • Commercial</p></div></div>
+            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b8?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Photography</h4><p>Editorial • Commercial</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Motion Design</h4><p>Animation • 3D Graphics</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Social Content</h4><p>Engagement • Viral Reach</p></div></div>
         </div>
+        <!-- NEW LINK BUTTON -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="creatives.html" class="btn btn-white">Explore All Creatives ↗</a>
+        </div>
     </section>
 
-    <!-- Partners (CIRCULAR LOGOS - FULL COLOR) -->
+    <!-- Partners -->
     <section class="partners-section" id="partners">
         <div class="section-header">
             <span class="section-label">Our Partners</span>
@@ -768,24 +768,12 @@
             <p class="section-subtitle">We collaborate with industry leaders to deliver exceptional results.</p>
         </div>
         <div class="partners-grid">
-            <div class="partner-logo">
-                <img src="/images/partners/hey.png" alt="Ethio Telecom">
-            </div>
-            <div class="partner-logo">
-                <img src="/images/partners/yanet.png" alt="Dashen Bank">
-            </div>
-            <div class="partner-logo">
-                <img src="/images/partners/surreal.png" alt="Habesha">
-            </div>
-            <div class="partner-logo">
-                <img src="/images/partners/tobia.png" alt="Kaldi's">
-            </div>
-            <div class="partner-logo">
-                <img src="/images/partners/liuana.png" alt="Tomoca">
-            </div>
-            <div class="partner-logo">
-                <img src="/images/partners/need.png" alt="Awash Bank">
-            </div>
+            <div class="partner-logo"><img src="/images/partners/hey.png" alt="Ethio Telecom"></div>
+            <div class="partner-logo"><img src="/images/partners/yanet.png" alt="Dashen Bank"></div>
+            <div class="partner-logo"><img src="/images/partners/surreal.png" alt="Habesha"></div>
+            <div class="partner-logo"><img src="/images/partners/tobia.png" alt="Kaldi's"></div>
+            <div class="partner-logo"><img src="/images/partners/liuana.png" alt="Tomoca"></div>
+            <div class="partner-logo"><img src="/images/partners/need.png" alt="Awash Bank"></div>
         </div>
     </section>
 
@@ -804,9 +792,7 @@
     </footer>
 
     <script>
-        // ==========================================
         // 3D SPHERE WITH ICONS
-        // ==========================================
         const GOLD = "#B8860B";
         const ICON_FILES = [
             "Vector1.png", "Vector2.png", "Vector3.png", "vector4.png",
@@ -937,9 +923,7 @@
 
         document.addEventListener('DOMContentLoaded', initThreeJS);
 
-        // ==========================================
         // GSAP ANIMATIONS
-        // ==========================================
         gsap.registerPlugin(ScrollTrigger);
 
         const menuBtn = document.getElementById('menuBtn');
@@ -950,7 +934,6 @@
         closeNav.addEventListener('click', () => mobileNav.classList.remove('active'));
         function closeMobileNav() { mobileNav.classList.remove('active'); }
 
-        // Hero zoom out
         const heroCard = document.getElementById('heroCard');
         const heroContent = document.querySelector('.hero-card-content');
         gsap.timeline({
@@ -965,7 +948,6 @@
             .to('.hero-card-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
             .to('.hero-card-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5');
 
-        // Horizontal Scroll
         const track = document.querySelector(".horizontal-track");
         if (track && window.innerWidth > 968) {
             const horizontalScroll = gsap.to(track, {
@@ -985,12 +967,10 @@
             });
         }
 
-        // Why cards animation
         gsap.utils.toArray('.why-card').forEach((card, i) => {
             gsap.to(card, { y: 0, opacity: 1, duration: 0.8, delay: i * 0.15, scrollTrigger: { trigger: card, start: "top 85%" } });
         });
 
-        // Side-scrolling tracks
         const eventsTrack = document.getElementById('eventsTrack');
         const creativesTrack = document.getElementById('creativesTrack');
         if (eventsTrack) {
