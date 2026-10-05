@@ -45,6 +45,75 @@
         ::-webkit-scrollbar-track { background: var(--white); }
         ::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 10px; }
 
+        /* LOADING SCREEN */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #1a0f0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.active {
+            opacity: 1;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+        }
+
+        #loading-screen.active .loading-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #loading-screen.fade-out .loading-logo {
+            opacity: 0;
+            transform: scale(1.2);
+        }
+
+        .loading-spinner {
+            position: absolute;
+            bottom: 15%;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(244, 197, 66, 0.2);
+            border-top: 3px solid var(--yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        #loading-screen.active .loading-spinner {
+            opacity: 1;
+        }
+
+        #loading-screen.fade-out .loading-spinner {
+            opacity: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* NAVIGATION */
         nav {
             position: absolute;
@@ -216,6 +285,8 @@
                 radial-gradient(1px 1px at 85% 90%, #f4c542, transparent);
             background-size: 100% 100%, 100% 100%, 100% 100%, 200px 200px, 300px 300px, 250px 250px, 350px 350px, 400px 400px, 280px 280px, 320px 320px;
             z-index: 1;
+            transition: transform 0.1s ease-out;
+            transform-origin: center center;
         }
 
         .hero-card-overlay {
@@ -224,6 +295,63 @@
             width: 100%; height: 100%;
             background: linear-gradient(135deg, rgba(45, 31, 26, 0.4) 0%, rgba(45, 31, 26, 0.1) 50%, transparent 100%);
             z-index: 2;
+        }
+
+        /* SHOOTING STARS */
+        .shooting-star {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 10px 2px #fff,
+                0 0 20px 4px #f4c542,
+                0 0 30px 6px #f4c542,
+                0 0 40px 8px rgba(244, 197, 66, 0.5);
+            opacity: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 6px;
+            background: linear-gradient(90deg, rgba(244, 197, 66, 0), rgba(244, 197, 66, 0.5) 50%, #fff 100%);
+            border-radius: 3px;
+            box-shadow: 0 0 15px #f4c542, 0 0 30px rgba(244, 197, 66, 0.5);
+        }
+
+        .shooting-star.shoot-tl-br::before { width: 400px; right: 0; }
+        .shooting-star.shoot-tr-bl::before { width: 400px; left: 0; }
+        .shooting-star.shoot-bl-tr::before { width: 400px; right: 0; }
+        .shooting-star.shoot-br-tl::before { width: 400px; left: 0; }
+
+        @keyframes shootTLtoBR {
+            0% { opacity: 1; top: 5%; left: 5%; transform: scale(1); }
+            50% { opacity: 1; }
+            100% { opacity: 0; top: 95%; left: 95%; transform: scale(0.3); }
+        }
+
+        @keyframes shootTRtoBL {
+            0% { opacity: 1; top: 5%; left: 95%; transform: scale(1); }
+            50% { opacity: 1; }
+            100% { opacity: 0; top: 95%; left: 5%; transform: scale(0.3); }
+        }
+
+        @keyframes shootBLtoTR {
+            0% { opacity: 1; top: 95%; left: 5%; transform: scale(1); }
+            50% { opacity: 1; }
+            100% { opacity: 0; top: 5%; left: 95%; transform: scale(0.3); }
+        }
+
+        @keyframes shootBRtoTL {
+            0% { opacity: 1; top: 95%; left: 95%; transform: scale(1); }
+            50% { opacity: 1; }
+            100% { opacity: 0; top: 5%; left: 5%; transform: scale(0.3); }
         }
 
         .hero-card-content {
@@ -371,10 +499,7 @@
             justify-content: center;
             min-height: 100vh;
         }
-        .who-content { 
-            text-align: center;
-            width: 100%;
-        }
+        .who-content { text-align: center; width: 100%; }
         .who-content .section-label { font-size: 0.85rem; letter-spacing: 6px; text-transform: uppercase; color: var(--yellow-dark); margin-bottom: 2rem; font-weight: 600; display: block; }
         .who-content .section-title { font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1.1; font-weight: 700; color: var(--brown-dark); margin-bottom: 3rem; letter-spacing: -1px; width: 100%; }
         .quote-block { margin: 3rem auto; max-width: 850px; text-align: center; }
@@ -400,23 +525,11 @@
         .service-item:hover .service-arrow { opacity: 1; }
 
         /* Why Krinfud */
-        .why-section { 
-            background: var(--brown-dark); 
-            color: var(--white);
-            padding: 10rem 5%; 
-        }
+        .why-section { background: var(--brown-dark); color: var(--white); padding: 10rem 5%; }
         .why-section .section-label { color: var(--yellow); }
         .why-section .section-title { color: var(--white); }
         .why-section .section-subtitle { color: rgba(255,255,255,0.7); max-width: 700px; }
-        
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
         .why-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -428,7 +541,6 @@
             opacity: 0;
             transform: translateY(40px);
         }
-
         .why-card::before {
             content: '';
             position: absolute;
@@ -439,35 +551,16 @@
             transform-origin: left;
             transition: transform 0.4s ease;
         }
-
         .why-card:hover {
             background: rgba(255, 255, 255, 0.06);
             transform: translateY(-10px);
             border-color: rgba(244, 197, 66, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-
         .why-card:hover::before { transform: scaleX(1); }
-
-        .why-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--yellow);
-            display: inline-block;
-        }
-
-        .why-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--white);
-            font-weight: 600;
-        }
-
-        .why-card p {
-            color: rgba(255,255,255,0.7);
-            line-height: 1.7;
-            font-size: 1rem;
-        }
+        .why-icon { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--yellow); display: inline-block; }
+        .why-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--white); font-weight: 600; }
+        .why-card p { color: rgba(255,255,255,0.7); line-height: 1.7; font-size: 1rem; }
 
         /* Showcase */
         .showcase-section { padding: 6rem 0 8rem; overflow: hidden; }
@@ -491,58 +584,15 @@
 
         /* Partners */
         .partners-section { background: var(--white); padding: 8rem 5%; }
-        .partners-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 4rem;
-            flex-wrap: wrap;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
+        .partners-grid { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; }
         .partner-logo {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            background: var(--off-white);
-            border: 2px solid rgba(45, 31, 26, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s ease;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
+            width: 130px; height: 130px; border-radius: 50%; background: var(--off-white); border: 2px solid rgba(45, 31, 26, 0.08);
+            display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; overflow: hidden; position: relative; cursor: pointer;
         }
-
-        .partner-logo img {
-            width: 65%;
-            height: 65%;
-            object-fit: contain;
-            opacity: 1;
-            transition: all 0.4s ease;
-        }
-
-        .partner-logo span {
-            font-weight: 700;
-            color: var(--brown-dark);
-            font-size: 0.7rem;
-            text-align: center;
-            letter-spacing: 1px;
-            padding: 1rem;
-        }
-
-        .partner-logo:hover {
-            border-color: var(--yellow);
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(244, 197, 66, 0.25);
-            background: var(--white);
-        }
-
-        .partner-logo:hover img {
-            transform: scale(1.1);
-        }
+        .partner-logo img { width: 65%; height: 65%; object-fit: contain; opacity: 1; transition: all 0.4s ease; }
+        .partner-logo span { font-weight: 700; color: var(--brown-dark); font-size: 0.7rem; text-align: center; letter-spacing: 1px; padding: 1rem; }
+        .partner-logo:hover { border-color: var(--yellow); transform: translateY(-8px) scale(1.05); box-shadow: 0 15px 40px rgba(244, 197, 66, 0.25); background: var(--white); }
+        .partner-logo:hover img { transform: scale(1.1); }
 
         /* CTA */
         .cta-section { background: var(--brown-dark); text-align: center; padding: 10rem 5%; }
@@ -560,19 +610,15 @@
             .hero-card-content { padding: 5rem 3rem 3rem; width: 100%; }
             .hero-card-title { letter-spacing: -1px; }
             .hero-3d-container { position: relative; right: auto; top: auto; transform: none; width: 80%; height: 300px; margin: 2rem auto 0; }
-            
             .horizontal-track { flex-direction: column; width: 100%; }
             .panel { width: 100vw; min-height: auto; }
             .who-container { padding: 6rem 5%; min-height: auto; }
             .services-container { padding: 6rem 5%; }
-            
             .why-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .who-content .section-title { font-size: clamp(2.5rem, 6vw, 4rem); }
-            
             .services-container { grid-template-columns: 1fr; gap: 2rem; }
             .services-visual { order: -1; margin-bottom: 2rem; }
             .services-visual img { max-width: 400px; }
-            
             .showcase-card { width: 300px; height: 400px; }
             .partners-grid { gap: 2rem; }
             .partner-logo { width: 100px; height: 100px; }
@@ -580,6 +626,12 @@
     </style>
 </head>
 <body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+        <img src="/images/krinfud-logo.png" alt="KRINFUD Digital" class="loading-logo">
+        <div class="loading-spinner"></div>
+    </div>
 
     <!-- Navigation -->
     <nav id="navbar">
@@ -605,7 +657,8 @@
     <!-- HERO with 3D Sphere -->
     <div class="hero-wrapper" id="hero">
         <div class="hero-card" id="heroCard">
-            <div class="hero-card-bg"></div>
+            <div class="hero-card-bg" id="heroBg"></div>
+            <div id="shootingStarContainer"></div>
             <div class="hero-card-overlay"></div>
             <div class="hero-card-content">
                 <p class="hero-card-label">Digital Marketing Agency in Ethiopia</p>
@@ -650,45 +703,15 @@
                             <h2 class="section-title">Our Services</h2>
                             <p class="section-subtitle" style="margin: 1.5rem 0 0;">Seven pillars of excellence, one unified vision for your brand.</p>
                         </div>
-                        <div class="service-item">
-                            <span class="service-number">01</span>
-                            <div class="service-info"><h3>Market Research</h3><p>We put in the effort to know before we act.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">02</span>
-                            <div class="service-info"><h3>Event Management</h3><p>Comprehensive event planning and execution.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">03</span>
-                            <div class="service-info"><h3>Media Buying</h3><p>Strategic placement and purchasing of ad space.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">04</span>
-                            <div class="service-info"><h3>Media Production</h3><p>High-quality video and audio production.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">05</span>
-                            <div class="service-info"><h3>Digital Marketing</h3><p>Targeted campaigns across social media.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">06</span>
-                            <div class="service-info"><h3>Brand Development</h3><p>Creating memorable identities.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
-                        <div class="service-item">
-                            <span class="service-number">07</span>
-                            <div class="service-info"><h3>ATL and BTL</h3><p>Covering all bases from large scale to direct response.</p></div>
-                            <span class="service-arrow">→</span>
-                        </div>
+                        <div class="service-item"><span class="service-number">01</span><div class="service-info"><h3>Market Research</h3><p>We put in the effort to know before we act.</p></div><span class="service-arrow">→</span></div>
+                        <div class="service-item"><span class="service-number">02</span><div class="service-info"><h3>Event Management</h3><p>Comprehensive event planning and execution.</p></div><span class="service-arrow">→</span></div>
+                        <div class="service-item"><span class="service-number">03</span><div class="service-info"><h3>Media Buying</h3><p>Strategic placement and purchasing of ad space.</p></div><span class="service-arrow">→</span></div>
+                        <div class="service-item"><span class="service-number">04</span><div class="service-info"><h3>Media Production</h3><p>High-quality video and audio production.</p></div><span class="service-arrow">→</span></div>
+                        <div class="service-item"><span class="service-number">05</span><div class="service-info"><h3>Digital Marketing</h3><p>Targeted campaigns across social media.</p></div><span class="service-arrow">→</span></div>
+                        <div class="service-item"><span class="service-number">06</span><div class="service-info"><h3>Brand Development</h3><p>Creating memorable identities.</p></div><span class="service-arrow">→</span></div>
+                        <div class="service-item"><span class="service-number">07</span><div class="service-info"><h3>ATL and BTL</h3><p>Covering all bases from large scale to direct response.</p></div><span class="service-arrow">→</span></div>
                     </div>
-                    <div class="services-visual">
-                        <img src="guy.png" alt="Services Guide">
-                    </div>
+                    <div class="services-visual"><img src="guy.png" alt="Services Guide"></div>
                 </div>
             </section>
         </div>
@@ -702,25 +725,13 @@
             <p class="section-subtitle">We leverage exclusive privileges, connections and resources to offer unmatched quality.</p>
         </div>
         <div class="why-grid">
-            <div class="why-card">
-                <div class="why-icon">◆</div>
-                <h3>Exclusive Access</h3>
-                <p>We leverage exclusive privileges, connections and resources to offer unmatched quality for every project we take on.</p>
-            </div>
-            <div class="why-card">
-                <div class="why-icon">✦</div>
-                <h3>We Are A–Z</h3>
-                <p>One point of contact to cater to your marketing needs — whether assessment, ideation, strategizing, execution, monitoring or evaluation.</p>
-            </div>
-            <div class="why-card">
-                <div class="why-icon">◉</div>
-                <h3>360° Marketing</h3>
-                <p>Every Channel, One Team Behind It. Brand management and digital strategy — one point of contact for everything your brand needs to grow.</p>
-            </div>
+            <div class="why-card"><div class="why-icon">◆</div><h3>Exclusive Access</h3><p>We leverage exclusive privileges, connections and resources to offer unmatched quality for every project we take on.</p></div>
+            <div class="why-card"><div class="why-icon">✦</div><h3>We Are A–Z</h3><p>One point of contact to cater to your marketing needs — whether assessment, ideation, strategizing, execution, monitoring or evaluation.</p></div>
+            <div class="why-card"><div class="why-icon"></div><h3>360° Marketing</h3><p>Every Channel, One Team Behind It. Brand management and digital strategy — one point of contact for everything your brand needs to grow.</p></div>
         </div>
     </section>
 
-    <!-- Events (LINKED TO VERCEL) -->
+    <!-- Events -->
     <section class="showcase-section white-bg" id="events">
         <div class="showcase-header">
             <span class="section-label">KRINFUD Events</span>
@@ -728,19 +739,18 @@
             <p class="section-subtitle">From intimate gatherings to large-scale productions — experiences that leave lasting impressions.</p>
         </div>
         <div class="showcase-track" id="eventsTrack">
-            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Tech Summit 2024</h4><p>Addis Ababa • 500+ Attendees</p></div></div>
+            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link"></a><div class="showcase-card-overlay"><h4>Tech Summit 2024</h4><p>Addis Ababa • 500+ Attendees</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Brand Launch Gala</h4><p>Hilton Hotel • Premium Event</p></div></div>
-            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Corporate Retreat</h4><p>Team Building • Strategy</p></div></div>
+            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link"></a><div class="showcase-card-overlay"><h4>Corporate Retreat</h4><p>Team Building • Strategy</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Creative Workshop</h4><p>Design Thinking • Innovation</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Cultural Festival</h4><p>Community • Celebration</p></div></div>
         </div>
-        <!-- NEW LINK BUTTON -->
         <div style="text-align: center; margin-top: 3rem;">
             <a href="https://krinfud.vercel.app/" target="_blank" class="btn btn-yellow">Explore All Events ↗</a>
         </div>
     </section>
 
-    <!-- Creatives (LINKED TO LOCAL FILE) -->
+    <!-- Creatives -->
     <section class="showcase-section brown-bg" id="creatives">
         <div class="showcase-header">
             <span class="section-label">KRINFUD Creatives</span>
@@ -749,12 +759,11 @@
         </div>
         <div class="showcase-track reverse" id="creativesTrack">
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Brand Campaign</h4><p>Visual Identity • Storytelling</p></div></div>
-            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Video Production</h4><p>Cinematic • High Quality</p></div></div>
-            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b8?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Photography</h4><p>Editorial • Commercial</p></div></div>
+            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link"></a><div class="showcase-card-overlay"><h4>Video Production</h4><p>Cinematic • High Quality</p></div></div>
+            <div class="showcase-card"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b8?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link"></a><div class="showcase-card-overlay"><h4>Photography</h4><p>Editorial • Commercial</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Motion Design</h4><p>Animation • 3D Graphics</p></div></div>
             <div class="showcase-card"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=600&h=800&fit=crop" alt=""><a href="#" class="showcase-card-link">↗</a><div class="showcase-card-overlay"><h4>Social Content</h4><p>Engagement • Viral Reach</p></div></div>
         </div>
-        <!-- NEW LINK BUTTON -->
         <div style="text-align: center; margin-top: 3rem;">
             <a href="creatives.html" class="btn btn-white">Explore All Creatives ↗</a>
         </div>
@@ -792,16 +801,61 @@
     </footer>
 
     <script>
+        // ==========================================
+        // LOADING SCREEN
+        // ==========================================
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            
+            // Show loading screen immediately
+            loadingScreen.classList.add('active');
+            
+            // Wait a bit then fade out
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                
+                // Remove from DOM after fade out completes
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1500); // Show loading for 1.5 seconds
+        });
+
+        // ==========================================
+        // SHOOTING STAR ANIMATION
+        // ==========================================
+        function createShootingStar() {
+            const container = document.getElementById('shootingStarContainer');
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            const direction = Math.floor(Math.random() * 4);
+            const animations = ['shootTLtoBR', 'shootTRtoBL', 'shootBLtoTR', 'shootBRtoTL'];
+            star.style.animation = `${animations[direction]} 1.5s ease-out forwards`;
+            container.appendChild(star);
+            setTimeout(() => { star.remove(); }, 1500);
+        }
+        setInterval(createShootingStar, 3000);
+
+        // ==========================================
+        // PARALLAX BACKGROUND EFFECT
+        // ==========================================
+        const heroCard = document.getElementById('heroCard');
+        const heroBg = document.getElementById('heroBg');
+        if (heroCard && heroBg) {
+            heroCard.addEventListener('mousemove', (e) => {
+                const rect = heroCard.getBoundingClientRect();
+                const moveX = ((e.clientX - rect.left) - rect.width / 2) / (rect.width / 2);
+                const moveY = ((e.clientY - rect.top) - rect.height / 2) / (rect.height / 2);
+                heroBg.style.transform = `translate(${moveX * 25}px, ${moveY * 25}px)`;
+            });
+            heroCard.addEventListener('mouseleave', () => { heroBg.style.transform = 'translate(0, 0)'; });
+        }
+
+        // ==========================================
         // 3D SPHERE WITH ICONS
+        // ==========================================
         const GOLD = "#B8860B";
-        const ICON_FILES = [
-            "Vector1.png", "Vector2.png", "Vector3.png", "vector4.png",
-            "Vector5.png", "Vector6.png", "vector7.png", "Vector8.png",
-            "Vector9.png", "Vector10.png", "Vector11.png", "Vector12.png",
-            "Vector13.png", "Vector14.png", "Vector15.png", "Vector16.png",
-            "Vector17.png", "Vector18.png", "Vector19.png", "Vector20.png",
-            "Vector21.png", "Vector22.png",
-        ];
+        const ICON_FILES = ["Vector1.png","Vector2.png","Vector3.png","vector4.png","Vector5.png","Vector6.png","vector7.png","Vector8.png","Vector9.png","Vector10.png","Vector11.png","Vector12.png","Vector13.png","Vector14.png","Vector15.png","Vector16.png","Vector17.png","Vector18.png","Vector19.png","Vector20.png","Vector21.png","Vector22.png"];
         const ICON_PATH = "/images/";
 
         function loadImage(src) {
@@ -809,10 +863,7 @@
                 const img = new Image();
                 img.crossOrigin = "anonymous";
                 img.onload = () => resolve(img);
-                img.onerror = () => {
-                    console.warn(`Icon failed to load: ${src}`);
-                    resolve(null);
-                };
+                img.onerror = () => { console.warn(`Icon failed to load: ${src}`); resolve(null); };
                 img.src = src;
             });
         }
@@ -823,18 +874,14 @@
             return images.filter((img) => img !== null);
         }
 
-        function seededRandom(seed) {
-            return Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1;
-        }
+        function seededRandom(seed) { return Math.abs(Math.sin(seed * 12.9898) * 43758.5453) % 1; }
 
         function drawIconGrid(ctx, canvasW, canvasH, icons) {
             ctx.fillStyle = GOLD;
             ctx.fillRect(0, 0, canvasW, canvasH);
             if (icons.length === 0) return;
-            const cols = 20;
-            const rows = 10;
-            const cellW = canvasW / cols;
-            const cellH = canvasH / rows;
+            const cols = 20; const rows = 10;
+            const cellW = canvasW / cols; const cellH = canvasH / rows;
             let seed = 0;
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
@@ -844,27 +891,20 @@
                     const icon = icons[Math.floor(seededRandom(seed + 1) * icons.length)];
                     const size = Math.min(cellW, cellH) * 0.7;
                     const rotation = (seededRandom(seed + 2) - 0.5) * 0.5;
-                    ctx.save();
-                    ctx.translate(cx, cy);
-                    ctx.rotate(rotation);
-                    ctx.drawImage(icon, -size / 2, -size / 2, size, size);
-                    ctx.restore();
+                    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rotation); ctx.drawImage(icon, -size / 2, -size / 2, size, size); ctx.restore();
                 }
             }
         }
 
         async function createIconTexture() {
             const canvas = document.createElement("canvas");
-            canvas.width = 2048;
-            canvas.height = 1024;
+            canvas.width = 2048; canvas.height = 1024;
             const ctx = canvas.getContext("2d");
             const icons = await loadAllIcons();
             drawIconGrid(ctx, canvas.width, canvas.height, icons);
             const texture = new THREE.CanvasTexture(canvas);
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.ClampToEdgeWrapping;
-            texture.anisotropy = 16;
-            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.wrapS = THREE.RepeatWrapping; texture.wrapT = THREE.ClampToEdgeWrapping;
+            texture.anisotropy = 16; texture.colorSpace = THREE.SRGBColorSpace;
             texture.needsUpdate = true;
             return texture;
         }
@@ -875,9 +915,7 @@
             const sphere = new THREE.Mesh(geometry, material);
             scene.add(sphere);
             createIconTexture().then((texture) => {
-                material.map = texture;
-                material.color.set(0xffffff); 
-                material.needsUpdate = true;
+                material.map = texture; material.color.set(0xffffff); material.needsUpdate = true;
             });
             return sphere;
         }
@@ -888,27 +926,17 @@
             const canvas = document.getElementById('sphere-canvas');
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.z = 3.5;
-            camera.position.y = 0;
+            camera.position.z = 3.5; camera.position.y = 0;
             const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-            scene.add(ambientLight);
-            const pointLight = new THREE.PointLight(0xffffff, 1);
-            pointLight.position.set(5, 5, 5);
-            scene.add(pointLight);
-            const pointLight2 = new THREE.PointLight(0xB8860B, 0.5);
-            pointLight2.position.set(-5, -5, 5);
-            scene.add(pointLight2);
-            const sphere = createSphere(scene);
-            sphere.position.y = 0;
+            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+            const pointLight = new THREE.PointLight(0xffffff, 1); pointLight.position.set(5, 5, 5); scene.add(pointLight);
+            const pointLight2 = new THREE.PointLight(0xB8860B, 0.5); pointLight2.position.set(-5, -5, 5); scene.add(pointLight2);
+            const sphere = createSphere(scene); sphere.position.y = 0;
             function animate() {
                 requestAnimationFrame(animate);
-                if (sphere) {
-                    sphere.rotation.y += 0.003;
-                    sphere.rotation.x += 0.001;
-                }
+                if (sphere) { sphere.rotation.y += 0.003; sphere.rotation.x += 0.001; }
                 renderer.render(scene, camera);
             }
             animate();
@@ -920,26 +948,23 @@
                 }
             });
         }
-
         document.addEventListener('DOMContentLoaded', initThreeJS);
 
+        // ==========================================
         // GSAP ANIMATIONS
+        // ==========================================
         gsap.registerPlugin(ScrollTrigger);
-
         const menuBtn = document.getElementById('menuBtn');
         const mobileNav = document.getElementById('mobileNav');
         const closeNav = document.getElementById('closeNav');
-
         menuBtn.addEventListener('click', (e) => { e.preventDefault(); mobileNav.classList.add('active'); });
         closeNav.addEventListener('click', () => mobileNav.classList.remove('active'));
         function closeMobileNav() { mobileNav.classList.remove('active'); }
 
-        const heroCard = document.getElementById('heroCard');
+        const heroCardEl = document.getElementById('heroCard');
         const heroContent = document.querySelector('.hero-card-content');
-        gsap.timeline({
-            scrollTrigger: { trigger: '.hero-wrapper', start: 'top top', end: '+=150%', scrub: 1, pin: true, pinSpacing: true }
-        })
-        .to(heroCard, { scale: 0.72, borderRadius: '30px', y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' })
+        gsap.timeline({ scrollTrigger: { trigger: '.hero-wrapper', start: 'top top', end: '+=150%', scrub: 1, pin: true, pinSpacing: true } })
+        .to(heroCardEl, { scale: 0.72, borderRadius: '30px', y: 0, opacity: 1, duration: 1, ease: 'power2.inOut' })
         .to(heroContent, { opacity: 0, y: -30, duration: 0.5, ease: 'power2.in' }, 0.5);
 
         gsap.timeline({ delay: 0.3 })
@@ -950,37 +975,19 @@
 
         const track = document.querySelector(".horizontal-track");
         if (track && window.innerWidth > 968) {
-            const horizontalScroll = gsap.to(track, {
-                x: () => -(track.scrollWidth - window.innerWidth),
-                ease: "none",
-                scrollTrigger: { trigger: ".horizontal-scroll-wrapper", pin: true, scrub: 1, end: () => "+=" + (track.scrollWidth - window.innerWidth), invalidateOnRefresh: true }
-            });
-            gsap.utils.toArray('.slide-from-right').forEach(el => {
-                gsap.fromTo(el, { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: "power2.out", scrollTrigger: { trigger: el, containerAnimation: horizontalScroll, start: "left 85%", end: "left 60%", scrub: true } });
-            });
-            gsap.utils.toArray('.service-item').forEach(el => {
-                gsap.fromTo(el, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: el, containerAnimation: horizontalScroll, start: "left 80%", end: "left 50%", scrub: true } });
-            });
+            const horizontalScroll = gsap.to(track, { x: () => -(track.scrollWidth - window.innerWidth), ease: "none", scrollTrigger: { trigger: ".horizontal-scroll-wrapper", pin: true, scrub: 1, end: () => "+=" + (track.scrollWidth - window.innerWidth), invalidateOnRefresh: true } });
+            gsap.utils.toArray('.slide-from-right').forEach(el => { gsap.fromTo(el, { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: "power2.out", scrollTrigger: { trigger: el, containerAnimation: horizontalScroll, start: "left 85%", end: "left 60%", scrub: true } }); });
+            gsap.utils.toArray('.service-item').forEach(el => { gsap.fromTo(el, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: el, containerAnimation: horizontalScroll, start: "left 80%", end: "left 50%", scrub: true } }); });
         } else if (track && window.innerWidth <= 968) {
-            gsap.utils.toArray('.slide-from-right').forEach(el => {
-                gsap.fromTo(el, { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, scrollTrigger: { trigger: el, start: "top 85%", end: "top 60%", scrub: true } });
-            });
+            gsap.utils.toArray('.slide-from-right').forEach(el => { gsap.fromTo(el, { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, scrollTrigger: { trigger: el, start: "top 85%", end: "top 60%", scrub: true } }); });
         }
 
-        gsap.utils.toArray('.why-card').forEach((card, i) => {
-            gsap.to(card, { y: 0, opacity: 1, duration: 0.8, delay: i * 0.15, scrollTrigger: { trigger: card, start: "top 85%" } });
-        });
+        gsap.utils.toArray('.why-card').forEach((card, i) => { gsap.to(card, { y: 0, opacity: 1, duration: 0.8, delay: i * 0.15, scrollTrigger: { trigger: card, start: "top 85%" } }); });
 
         const eventsTrack = document.getElementById('eventsTrack');
         const creativesTrack = document.getElementById('creativesTrack');
-        if (eventsTrack) {
-            const w = eventsTrack.scrollWidth - window.innerWidth;
-            gsap.to(eventsTrack, { x: -w * 0.6, ease: 'none', scrollTrigger: { trigger: eventsTrack.parentElement, start: 'top center', end: 'bottom center', scrub: 1.5 } });
-        }
-        if (creativesTrack) {
-            const w = creativesTrack.scrollWidth - window.innerWidth;
-            gsap.to(creativesTrack, { x: -w * 0.6, ease: 'none', scrollTrigger: { trigger: creativesTrack.parentElement, start: 'top center', end: 'bottom center', scrub: 1.5 } });
-        }
+        if (eventsTrack) { const w = eventsTrack.scrollWidth - window.innerWidth; gsap.to(eventsTrack, { x: -w * 0.6, ease: 'none', scrollTrigger: { trigger: eventsTrack.parentElement, start: 'top center', end: 'bottom center', scrub: 1.5 } }); }
+        if (creativesTrack) { const w = creativesTrack.scrollWidth - window.innerWidth; gsap.to(creativesTrack, { x: -w * 0.6, ease: 'none', scrollTrigger: { trigger: creativesTrack.parentElement, start: 'top center', end: 'bottom center', scrub: 1.5 } }); }
 
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', function(e) {
